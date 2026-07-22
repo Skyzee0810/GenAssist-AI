@@ -1,3 +1,4 @@
+import asyncio
 from logging.config import fileConfig
 
 from alembic import context
@@ -12,12 +13,8 @@ config = context.config
 
 config.set_main_option(
     "sqlalchemy.url",
-    settings.database_url.replace(
-        "postgresql+asyncpg",
-        "postgresql",
-    ),
+    settings.database_url,
 )
-
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -71,8 +68,6 @@ async def run_async_migrations() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in online mode."""
-
-    import asyncio
 
     asyncio.run(run_async_migrations())
 
